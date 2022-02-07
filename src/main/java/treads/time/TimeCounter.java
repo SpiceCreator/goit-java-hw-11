@@ -9,7 +9,7 @@ public class TimeCounter {
 
         oneSecondThread.start();
 
-        Thread.sleep(20000);
+        Thread.sleep(30000);
 
         oneSecondThread.interrupt();
         fiveSecondsThread.interrupt();
