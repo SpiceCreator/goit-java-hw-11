@@ -30,7 +30,7 @@ public class Iterator {
 
     private synchronized void increaseIndex() {
         index.getAndIncrement();
-        notifyAll();
+        notify();
     }
 
     public int getIndex() {
