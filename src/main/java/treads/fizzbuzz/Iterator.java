@@ -37,21 +37,14 @@ public class Iterator {
         return index.get();
     }
 
-    private String interruptTheads() {
-        fizz.interrupt();
-        buzz.interrupt();
-        fizzbuzz.interrupt();
-        number.interrupt();
-
-        return stringBuffer.toString().substring(0, stringBuffer.length() - 2);
-    }
-
-    public String goFizzBuzzFor(int count) throws InterruptedException {
+    private void threadStarter() {
         number.start();
         fizz.start();
         buzz.start();
         fizzbuzz.start();
+    }
 
+    private void iterate(int count) {
         for (int i = 1; i < count; ) {
             if (fizzIsReady && buzzIsReady && fizzbuzzIsReady && numberIsReady) {
                 synchronized (this) {
@@ -64,9 +57,24 @@ public class Iterator {
                 }
             }
         }
+    }
 
-        Thread.sleep(0, 1); //Я пытался, но без этого никак :-(
+    private String threadsInterrupter() {
+        fizz.interrupt();
+        buzz.interrupt();
+        fizzbuzz.interrupt();
+        number.interrupt();
 
-        return interruptTheads();
+        return stringBuffer.toString().substring(0, stringBuffer.length() - 2); //Это хитрое решение помогает concatElement'у успеть дописать последнее значение
+    }
+
+    public String goFizzBuzzFor(int count) throws InterruptedException {
+        threadStarter();
+
+        iterate(count);
+
+        Thread.sleep(0, 2); //Я пытался, но без этого никак :-(
+
+        return threadsInterrupter();
     }
 }
