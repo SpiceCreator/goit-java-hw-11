@@ -59,22 +59,25 @@ public class Iterator {
         }
     }
 
-    private String threadsInterrupter() {
+    private void threadsInterrupter() {
         fizz.interrupt();
         buzz.interrupt();
         fizzbuzz.interrupt();
         number.interrupt();
-
-        return stringBuffer.toString().substring(0, stringBuffer.length() - 2); //Это хитрое решение помогает concatElement'у успеть дописать последнее значение
     }
 
-    public String goFizzBuzzFor(int count) throws InterruptedException {
+    public String goFizzBuzzFor(int count) {
         threadStarter();
 
         iterate(count);
 
-        Thread.sleep(0, 2); //Я пытался, но без этого никак :-(
+        while (true) {
+            if (keyWasLocked && keyWasUnlocked) {
+                threadsInterrupter();
+                break;
+            }
+        }
 
-        return threadsInterrupter();
+        return stringBuffer.toString().substring(0, stringBuffer.length() - 2);
     }
 }
